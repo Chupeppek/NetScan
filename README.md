@@ -305,14 +305,14 @@ sudo python3 netscan.py
 NetScan will ask for the local IP address:
 
 ```text
-Enter your local IP: 192.168.0.148
+Enter your local IP: 123.456.7.890
 ```
 
 It will then determine the corresponding network interface and network:
 
 ```text
 Interface found: Ethernet
-Network: 192.168.0.0/24
+Network: 123.456.7.8/00
 ```
 
 The scanner will perform an ARP scan and display discovered devices.
@@ -322,10 +322,10 @@ Example:
 ```text
 IP              MAC                 Vendor                                                                          Status
 =======================================================================================================================================
-192.168.0.1     60:a4:b7:bb:1e:7d  TP-Link Systems Inc                                                             ONLINE
-192.168.0.89    44:a6:42:d1:94:ca  Hangzhou Hikvision Digital Technology Co.                                       ONLINE
-192.168.0.90    3a:b7:82:75:b3:01  Unknown                                                                         ONLINE
-192.168.0.91    88:b9:45:7b:f2:c2  Apple, Inc.                                                                     OFFLINE
+123.456.7.8      xx:xx:xx:xx:xx:xx  TP-Link Systems Inc                                                             ONLINE
+123.456.7.89     xx:xx:xx:xx:xx:xx  Hangzhou Hikvision Digital Technology Co.                                       ONLINE
+123.456.7.890    xx:xx:xx:xx:xx:xx  Unknown                                                                         ONLINE
+123.456.7.891    xx:xx:xx:xx:xx:xx  Apple, Inc.                                                                     OFFLINE
 =======================================================================================================================================
 ```
 
