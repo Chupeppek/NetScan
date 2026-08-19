@@ -1,0 +1,5 @@
+devices.json
+oui.csv
+__pycache__/
+*.pyc
+.venv/
