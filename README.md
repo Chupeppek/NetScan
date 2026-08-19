@@ -320,13 +320,13 @@ The scanner will perform an ARP scan and display discovered devices.
 Example:
 
 ```text
-IP              MAC                 Vendor                                                                          Status
-=======================================================================================================================================
-123.456.7.8      xx:xx:xx:xx:xx:xx  TP-Link Systems Inc                                                             ONLINE
-123.456.7.89     xx:xx:xx:xx:xx:xx  Hangzhou Hikvision Digital Technology Co.                                       ONLINE
-123.456.7.890    xx:xx:xx:xx:xx:xx  Unknown                                                                         ONLINE
-123.456.7.891    xx:xx:xx:xx:xx:xx  Apple, Inc.                                                                     OFFLINE
-=======================================================================================================================================
+IP              MAC                 Vendor                                            Status
+===================================================================================================
+123.456.7.8      xx:xx:xx:xx:xx:xx  TP-Link Systems Inc                               ONLINE
+123.456.7.89     xx:xx:xx:xx:xx:xx  Hangzhou Hikvision Digital Technology Co.         ONLINE
+123.456.7.890    xx:xx:xx:xx:xx:xx  Unknown                                           ONLINE
+123.456.7.891    xx:xx:xx:xx:xx:xx  Apple, Inc.                                       OFFLINE
+===================================================================================================
 ```
 
 ---
