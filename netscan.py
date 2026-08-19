@@ -481,27 +481,27 @@ def print_devices(
 
     print()
 
-    print("=" * 135)
+    print("=" * 100)
 
     print(
         f"{'IP':<16}"
         f"{'MAC':<20}"
-        f"{'Vendor':<80}"
+        f"{'Vendor':<50}"
         f"{'Status'}"
     )
 
-    print("=" * 135)
+    print("=" * 100)
 
     for mac, device in network_devices.items():
 
         print(
             f"{device['ip']:<16}"
             f"{mac:<20}"
-            f"{device['vendor']:<80}"
+            f"{device['vendor']:<50}"
             f"{device['status']}"
         )
 
-    print("=" * 135)
+    print("=" * 100)
 
 
 # MAIN
