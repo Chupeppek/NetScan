@@ -1,4 +1,4 @@
-[NetScan README — macOS support.md](https://github.com/user-attachments/files/31222677/NetScan.README.macOS.support.md)
+[NetScan README.md](https://github.com/user-attachments/files/31222677/NetScan.README.macOS.support.md)
 # NetScan
 
 A Python-based local network scanner that discovers devices using ARP.
