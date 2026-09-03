@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3#!/usr/bin/env python3
 
 import json
 import os
@@ -10,21 +10,16 @@ import urllib.request
 
 import psutil
 
-from scapy.all import ARP, Ether, srp
+from scapy.all import ARP, Ether, srp, conf
 
-
-# CONFIGURATION
 
 DEVICES_FILE = "devices.json"
 OUI_FILE = "oui.csv"
 
 OUI_URL = "https://standards-oui.ieee.org/oui/oui.csv"
 
-# Update OUI database once every 24 hours
 OUI_UPDATE_INTERVAL = 24 * 60 * 60
 
-
-# SYSTEM
 
 def get_system():
     system = platform.system()
@@ -51,17 +46,13 @@ def get_system():
         return system
 
 
-# OUI DATABASE
-
 def oui_database_needs_update():
     if not os.path.exists(OUI_FILE):
         return True
 
     try:
         last_update = os.path.getmtime(OUI_FILE)
-
         current_time = time.time()
-
         age = current_time - last_update
 
         return age >= OUI_UPDATE_INTERVAL
@@ -165,7 +156,6 @@ def load_oui_database():
                     continue
 
                 prefix = parts[1].strip()
-
                 vendor = parts[2].strip().strip('"')
 
                 prefix = (
@@ -217,8 +207,6 @@ def get_vendor(
     return vendor
 
 
-# NETWORK INFORMATION
-
 def get_network_info(ip):
 
     interfaces = psutil.net_if_addrs()
@@ -255,7 +243,22 @@ def get_network_info(ip):
     return None, None
 
 
-# ARP SCAN
+def get_default_gateway():
+
+    try:
+
+        route = conf.route.route("0.0.0.0")
+
+        gateway = route[2]
+
+        if gateway and gateway != "0.0.0.0":
+            return gateway
+
+    except Exception:
+        pass
+
+    return None
+
 
 def run_arp_scan(
     interface,
@@ -321,7 +324,6 @@ def parse_arp_output(
     for _, received in answered:
 
         ip = received.psrc
-
         mac = received.hwsrc.lower()
 
         vendor = get_vendor(
@@ -339,8 +341,6 @@ def parse_arp_output(
 
     return devices
 
-
-# JSON DATABASE
 
 def load_devices():
 
@@ -391,8 +391,6 @@ def save_devices(devices):
             f"Error saving devices: {e}"
         )
 
-
-# DEVICE STATUS
 
 def update_devices(
     found_devices,
@@ -467,8 +465,6 @@ def update_devices(
             )
 
 
-# OUTPUT
-
 def print_devices(
     devices,
     network
@@ -504,11 +500,7 @@ def print_devices(
     print("=" * 100)
 
 
-# MAIN
-
 def main():
-
-    # Detect operating system
 
     system = get_system()
 
@@ -517,8 +509,6 @@ def main():
     )
 
     print()
-
-    # Update OUI database
 
     update_oui_database()
 
@@ -535,15 +525,11 @@ def main():
 
     print()
 
-    # Ask user for local IP
-
     ip = input(
         "Enter your local IP: "
     ).strip()
 
     print()
-
-    # Find interface and network
 
     interface, network = (
         get_network_info(ip)
@@ -567,6 +553,21 @@ def main():
 
         return
 
+    gateway = get_default_gateway()
+
+    if gateway is None:
+
+        print(
+            "Could not determine "
+            "default gateway."
+        )
+
+        return
+
+    network_key = (
+        f"{network}|{gateway}"
+    )
+
     print(
         f"Interface found: "
         f"{interface}"
@@ -577,9 +578,12 @@ def main():
         f"{network}"
     )
 
-    print()
+    print(
+        f"Gateway: "
+        f"{gateway}"
+    )
 
-    # Scan network
+    print()
 
     answered = run_arp_scan(
         interface,
@@ -589,8 +593,6 @@ def main():
     if answered is None:
         return
 
-    # Parse results
-
     found_devices = (
         parse_arp_output(
             answered,
@@ -598,31 +600,23 @@ def main():
         )
     )
 
-    # Load database
-
     known_devices = (
         load_devices()
     )
 
-    # Update device statuses
-
     update_devices(
         found_devices,
         known_devices,
-        network
+        network_key
     )
-
-    # Save database
 
     save_devices(
         known_devices
     )
 
-    # Display results
-
     print_devices(
         known_devices,
-        network
+        network_key
     )
 
     print()
@@ -634,11 +628,12 @@ def main():
 
     print(
         f"Known devices in this network: "
-        f"{len(known_devices[network])}"
+        f"{len(known_devices[network_key])}"
     )
 
 
-# ENTRY POINT
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
